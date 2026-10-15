@@ -1,4 +1,4 @@
-# Superseded first replication (Oct 3, 2026). Depends on the v1 lcc.py API and no longer runs;
+# Sentence-level baselines (BoW, BERT [CLS], both combined), an earlier script. Depends on the v1 lcc.py API and no longer runs;
 # its results are in results/results.json. exp1_features.py and exp3_classifiers.py cover the same models.
 """Fit each model with C tuned on dev, then evaluate once on test."""
 import json
@@ -45,7 +45,7 @@ def dense(*keys):
 
 
 MODELS = {
-    # The original three models
+    # The three sentence-level models
     "BoW baseline": [bow],
     "BERT [CLS]": [dense("cls")],
     "Hybrid: [CLS] + BoW": [dense("cls"), bow],

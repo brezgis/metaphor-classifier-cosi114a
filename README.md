@@ -1,11 +1,13 @@
 # Metaphor detection on the LCC datasets
 
-This started as a replication of my COSI 114A (Brandeis) final project
-("Detecting Metaphor in Text", Dec 2025; the course paper is in `paper/`)
-and turned into a hill-climb: why the original failed, how far classical models
-get, whether nonlinear models help, and whether it works across languages.
+A COSI 114A (Brandeis) course project: classifying source/target word pairs in
+the LCC Metaphor Datasets as metaphorical or literal, in English, Spanish, Russian
+and Farsi. The write-up is in `paper/`. It works up from a sentence-level baseline
+through handcrafted pair features and frozen encoders to a fine-tuned multilingual
+encoder, asking how far classical models get, whether nonlinear models help, and
+whether it works across languages.
 
-**Headline (English, locked test set, F1):** original project 0.512 → handcrafted
+**Headline (English, locked test set, F1):** sentence-level baseline 0.513 → handcrafted
 pair features 0.717 → frozen mDeBERTa + MLP 0.812 → fine-tuned mDeBERTa 0.827.
 The fine-tuned multilingual model also gets 0.74 (Spanish), 0.86 (Russian)
 and 0.68 (Farsi).
@@ -18,7 +20,7 @@ The fine-tuned four-language model is on Hugging Face:
 LCC Metaphor Datasets (Mohler et al., LREC 2016; https://github.com/lcc-api/metaphor,
 CC BY-NC-SA 4.0). The data isn't redistributed here; see Setup below. Each instance is a **source/target word pair inside a
 sentence** (`the <LmSource>War</LmSource> on <LmTarget>Poverty</LmTarget>`) with
-human metaphoricity scores 0-3. As in the original project: drop pairs with mean
+human metaphoricity scores 0-3. Drop pairs with mean
 score < 0 (-1 = invalid relation), label metaphor if mean >= 2. Only human scores
 are used; the large bundles also contain system scores.
 
@@ -42,21 +44,20 @@ annotator-vs-annotator F1 because they learn the average annotator.
   train+dev, grouped by document (`cv.py`), or the dev splits (multilingual,
   fine-tuning). `final.py` scored every finalist on test exactly once and reports
   all of them, not only the best.
-  (Exception: the very first replication, below, looked at en_small test before
-  the lock.)
+  (Exception: the sentence-level baselines, below, were scored on en_small test
+  before the lock.)
 - Everything learned from data (vocabularies, scalers, SVD) is fit inside each fold.
 - Every CV run is logged to `results/experiments.jsonl`; final numbers are in
   `results/final.json`.
 
-## Why the original project didn't work
+## Why sentence-level models fall short
 
-Its models saw the whole sentence (bag-of-words, or BERT [CLS]), but LCC labels
-one word pair within it, so the model had no way to know which words were being
-judged. Some sentences contain several pairs with opposite labels. Other factors:
-no class weighting (the model leaned literal), and frozen [CLS] is a weak
-sentence vector. Rebuilt exactly, the original models score 0.496 / 0.445 /
-0.513 test F1 (slides: 0.467 / 0.471 / 0.512); see `legacy/` and
-`results/results.json`.
+A sentence-level model (bag-of-words, or BERT [CLS]) sees the whole sentence, but
+LCC labels one word pair within it, so the model has no way to know which words
+are being judged. Some sentences contain several pairs with opposite labels.
+Without class weighting such models also lean literal, and frozen [CLS] is a weak
+sentence vector. BoW / BERT [CLS] / the two combined score 0.496 / 0.445 / 0.513
+test F1; see `legacy/` and `results/results.json`.
 
 ## What was learned
 
@@ -65,7 +66,7 @@ the signal. Sentence context *hurts*.
 
 | features | CV F1 |
 |---|---|
-| sentence BoW + length (original) | 0.538 |
+| sentence BoW + length | 0.538 |
 | frequency (2 feats) / concreteness (8) | 0.502 / 0.525 |
 | dependency neighbourhood / ±3 window | 0.553 / 0.562 |
 | LM signals: surprisal, MIP and similarity cosines (63) | 0.577 |
@@ -120,7 +121,7 @@ English, en_small test (n = 866), 95% bootstrap CIs:
 
 | model | train data | test F1 | 95% CI |
 |---|---|---|---|
-| original hybrid ([CLS] + BoW), replicated | small | 0.513 | 0.463–0.559 |
+| sentence-level [CLS] + BoW | small | 0.513 | 0.463–0.559 |
 | sentence BoW + length, balanced | small | 0.588 | 0.544–0.631 |
 | lexical sparse, Naive Bayes | small | 0.692 | 0.651–0.732 |
 | all handcrafted, LR | small | 0.717 | 0.674–0.756 |

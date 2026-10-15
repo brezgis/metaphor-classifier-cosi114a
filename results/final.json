@@ -1,6 +1,6 @@
 {
   "english": {
-    "BoW + length, LR (original baseline, balanced)": {
+    "BoW + length, LR (sentence baseline, balanced)": {
       "f1": 0.5876923076923077,
       "ci": [
         0.5439434248696097,

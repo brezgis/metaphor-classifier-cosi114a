@@ -2,7 +2,7 @@
 
 Each LCC instance is a (source, target) word pair inside a sentence, scored
 for metaphoricity 0-3 by human annotators (-1 = invalid syntactic relation).
-Following the original project: drop instances whose mean human score is < 0,
+Drop instances whose mean human score is < 0,
 label metaphor if mean score >= 2.
 
 Benchmark: en_small, split 80/10/10 grouped by document. The large bundles

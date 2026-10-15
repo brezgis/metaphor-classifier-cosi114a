@@ -1,6 +1,6 @@
 """Final, one-time evaluation of the finalists on the locked test splits.
 
-English benchmark: en_small test (866 pairs; the original project's test split).
+English benchmark: en_small test (866 pairs).
 Other languages: es/ru/fa large test splits. Frozen-feature models are refit on
 all non-test data with the hyperparameters chosen in CV/dev (read from
 results/experiments.jsonl and results/exp5_multilingual.json); fine-tuned models
@@ -133,7 +133,7 @@ if __name__ == "__main__":
                                       "mdeberta-spans": (False, 2304)}[s])[c][0]
     # name -> (experiment name holding the CV-chosen params, feature block, classifier, train on en_large?)
     english = {
-        "BoW + length, LR (original baseline, balanced)": (
+        "BoW + length, LR (sentence baseline, balanced)": (
             "exp1 | sentence BoW + length", exp1_runs["sentence BoW + length"], LR1, False),
         "lexical sparse, Naive Bayes": (
             "exp3 | lexical-sparse | NaiveBayes", SETS["lexical-sparse"][0], clf3("lexical-sparse", "NaiveBayes"), False),

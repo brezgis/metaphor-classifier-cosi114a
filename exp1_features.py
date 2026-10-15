@@ -10,7 +10,7 @@ GRID = [{"C": c} for c in (0.003, 0.01, 0.03, 0.1, 0.3, 1, 3, 10)]
 BERT = ("bert-base-uncased", "en_small")
 
 runs = {
-    # the original project's baseline
+    # sentence-level baseline
     "sentence BoW + length": combine(sent_bow, dict_block(length_feats)),
     # handcrafted groups alone
     "lex": dict_block(lex_feats),
