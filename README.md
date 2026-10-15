@@ -7,7 +7,7 @@ through handcrafted pair features and frozen encoders to a fine-tuned multilingu
 encoder, asking how far classical models get, whether nonlinear models help, and
 whether it works across languages.
 
-**Headline (English, locked test set, F1):** sentence-level baseline 0.513 → handcrafted
+**Headline (English, locked test set, F1):** sentence-level baseline 0.588 → handcrafted
 pair features 0.717 → frozen mDeBERTa + MLP 0.812 → fine-tuned mDeBERTa 0.827.
 The fine-tuned multilingual model also gets 0.74 (Spanish), 0.86 (Russian)
 and 0.68 (Farsi).
