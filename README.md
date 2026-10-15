@@ -10,6 +10,9 @@ pair features 0.717 → frozen mDeBERTa + MLP 0.812 → fine-tuned mDeBERTa 0.82
 The fine-tuned multilingual model also gets 0.74 (Spanish), 0.86 (Russian)
 and 0.68 (Farsi).
 
+The fine-tuned four-language model is on Hugging Face:
+[brezgis/lcc-metaphor-mdeberta](https://huggingface.co/brezgis/lcc-metaphor-mdeberta).
+
 ## Data
 
 LCC Metaphor Datasets (Mohler et al., LREC 2016; https://github.com/lcc-api/metaphor,
