@@ -1,0 +1,11 @@
+numpy>=2.0
+scipy>=1.13
+scikit-learn>=1.6
+torch>=2.4
+transformers>=4.45,<5
+sentencepiece
+protobuf
+spacy>=3.7
+nltk>=3.8
+wordfreq>=3.0
+joblib

@@ -1,0 +1,13 @@
+# LCC data (CC BY-NC-SA 4.0): download from https://github.com/lcc-api/metaphor
+data/*
+!data/.gitkeep
+# third-party lexical norms
+resources/*
+!resources/.gitkeep
+# cached embeddings and checkpoints (~17 GB)
+features
+features/
+logs/
+legacy/*.jsonl
+__pycache__/
+*.pyc
